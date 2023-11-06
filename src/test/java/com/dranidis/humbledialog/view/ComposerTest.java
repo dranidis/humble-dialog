@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.dranidis.humbledialog.ReverbFilter;
 import com.dranidis.humbledialog.model.EchoFilter;
 import com.dranidis.humbledialog.model.Filter;
+import com.dranidis.humbledialog.model.ReverbFilter;
 
 /**
  * All the tests should only interact with the composer. There should be no
@@ -35,26 +35,30 @@ public class ComposerTest {
         // then
         assertEquals(1, view.selectionList().size());
         assertEquals(0, view.composedFilter().size());
-        assertEquals(false, view.addButtonEnabled());
-        assertEquals(false, view.removeButtonEnabled());
-        assertEquals(false, view.moveUpButtonEnabled());
-        assertEquals(false, view.moveDownButtonEnabled());
+        assertEquals(false, view.isAddButtonEnabled());
+        assertEquals(false, view.isRemoveButtonEnabled());
+        assertEquals(false, view.isMoveUpButtonEnabled());
+        assertEquals(false, view.isMoveDownButtonEnabled());
     }
 
     @Test
-    public void add_filter_to_chain() {
+    public void add_filter_to_chain_adds_the_filter_and_deselects_the_filter_from_the_selection() {
         // given
         List<Filter> filters = new ArrayList<>();
         filters.add(new ReverbFilter());
         MockChainComposerView view = new MockChainComposerView();
         ChainComposer composer = new ChainComposer(view, filters);
 
-        // when
         composer.initialize();
-        composer.add(0);
+        composer.selectFilter(0);
+        assertEquals(0, view.selectionListSelectedIndex());
+        // when
+
+        composer.add();
 
         // then
         assertEquals(1, view.composedFilter().size());
+        assertEquals(-1, view.selectionListSelectedIndex());
     }
 
     @Test
@@ -67,7 +71,7 @@ public class ComposerTest {
 
         // when
         composer.initialize();
-        composer.add(0);
+        composer.add();
         composer.remove(0);
 
         // then
@@ -84,8 +88,8 @@ public class ComposerTest {
 
         // when
         composer.initialize();
-        composer.add(0);
-        composer.add(0);
+        composer.add();
+        composer.add();
         composer.removeAll();
 
         // then
@@ -93,7 +97,7 @@ public class ComposerTest {
     }
 
     @Test
-    public void move_up_filter_in_chain() {
+    public void move_up_filter_in_chain_also_keeps_the_filter_selected() {
         // given
         List<Filter> filters = new ArrayList<>();
         filters.add(new ReverbFilter());
@@ -103,17 +107,21 @@ public class ComposerTest {
 
         // when
         composer.initialize();
-        composer.add(0);
-        composer.add(1);
-        composer.moveUp(1);
+        composer.selectFilter(0);
+        composer.add();// 0
+        composer.selectFilter(1);
+        composer.add();// 1
+        composer.selectChainFilter(1);
+        composer.moveUp();
 
         // then
         assertEquals("Echo", view.composedFilter().get(0).name());
         assertEquals("Reverb", view.composedFilter().get(1).name());
+        assertEquals(0, view.chainSelectedIndex());
     }
 
     @Test
-    public void move_down_filter_in_chain() {
+    public void move_down_filter_in_chain_also_keeps_the_filter_selected() {
         // given
         List<Filter> filters = new ArrayList<>();
         filters.add(new ReverbFilter());
@@ -123,13 +131,18 @@ public class ComposerTest {
 
         // when
         composer.initialize();
-        composer.add(0);
-        composer.add(1);
-        composer.moveDown(0);
+        composer.selectFilter(0);
+        composer.add();// 0
+        composer.selectFilter(1);
+        composer.add();// 1
+        composer.selectChainFilter(0);
+        composer.moveDown();
 
         // then
         assertEquals("Echo", view.composedFilter().get(0).name());
         assertEquals("Reverb", view.composedFilter().get(1).name());
+        assertEquals(1, view.chainSelectedIndex());
+
     }
 
     @Test
@@ -141,13 +154,13 @@ public class ComposerTest {
         ChainComposer composer = new ChainComposer(view, filters);
 
         composer.initialize();
-        assertEquals(false, view.addButtonEnabled());
+        assertEquals(false, view.isAddButtonEnabled());
         // when
 
         composer.selectFilter(0);
 
         // then
-        assertEquals(true, view.addButtonEnabled());
+        assertEquals(true, view.isAddButtonEnabled());
     }
 
     @Test
@@ -159,14 +172,14 @@ public class ComposerTest {
         ChainComposer composer = new ChainComposer(view, filters);
 
         composer.initialize();
-        assertEquals(false, view.removeButtonEnabled());
+        assertEquals(false, view.isRemoveButtonEnabled());
 
         // when
 
         composer.selectChainFilter(0);
 
         // then
-        assertEquals(true, view.removeButtonEnabled());
+        assertEquals(true, view.isRemoveButtonEnabled());
     }
 
     @Test
@@ -179,13 +192,13 @@ public class ComposerTest {
         ChainComposer composer = new ChainComposer(view, filters);
 
         composer.initialize();
-        assertEquals(false, view.moveUpButtonEnabled());
+        assertEquals(false, view.isMoveUpButtonEnabled());
         // when
 
         composer.selectChainFilter(1);
 
         // then
-        assertEquals(true, view.moveUpButtonEnabled());
+        assertEquals(true, view.isMoveUpButtonEnabled());
     }
 
     @Test
@@ -198,13 +211,13 @@ public class ComposerTest {
         ChainComposer composer = new ChainComposer(view, filters);
 
         composer.initialize();
-        assertEquals(false, view.moveUpButtonEnabled());
+        assertEquals(false, view.isMoveUpButtonEnabled());
         // when
 
         composer.selectChainFilter(0);
 
         // then
-        assertEquals(false, view.moveUpButtonEnabled());
+        assertEquals(false, view.isMoveUpButtonEnabled());
     }
 
     @Test
@@ -217,15 +230,17 @@ public class ComposerTest {
         ChainComposer composer = new ChainComposer(view, filters);
 
         composer.initialize();
-        composer.add(0);
-        composer.add(1);
-        assertEquals(false, view.moveDownButtonEnabled());
+        composer.selectFilter(0);
+        composer.add();// 0
+        composer.selectFilter(1);
+        composer.add();// 1
+        assertEquals(false, view.isMoveDownButtonEnabled());
         // when
 
         composer.selectChainFilter(0);
 
         // then
-        assertEquals(true, view.moveDownButtonEnabled());
+        assertEquals(true, view.isMoveDownButtonEnabled());
     }
 
     @Test
@@ -238,14 +253,16 @@ public class ComposerTest {
         ChainComposer composer = new ChainComposer(view, filters);
 
         composer.initialize();
-        composer.add(0);
-        composer.add(1);
-        assertEquals(false, view.moveDownButtonEnabled());
+        composer.selectFilter(0);
+        composer.add();// 0
+        composer.selectFilter(1);
+        composer.add();// 1
+        assertEquals(false, view.isMoveDownButtonEnabled());
         // when
 
         composer.selectChainFilter(1);
 
         // then
-        assertEquals(false, view.moveDownButtonEnabled());
+        assertEquals(false, view.isMoveDownButtonEnabled());
     }
 }

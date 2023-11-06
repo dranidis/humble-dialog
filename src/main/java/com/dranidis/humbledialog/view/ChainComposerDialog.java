@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import com.dranidis.humbledialog.model.Filter;
 import com.dranidis.humbledialog.model.FilterRepository;
@@ -82,6 +83,10 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         c.weighty = 1.0;
         panel.add(new JScrollPane(chainJList), c);
 
+        selectionJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        chainJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // Event listeners
         addButton.addActionListener(e -> onAdd());
         removeButton.addActionListener(e -> onRemove());
         removeAllButton.addActionListener(e -> onRemoveAll());
@@ -108,12 +113,12 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
     /*
      * Action methods
      * 
-     * Each action method is very small, just a simple delegation. 
+     * Each action method is very small, just a simple delegation.
      * 
      */
 
     private void onAdd() {
-        composer.add(selectionJList.getSelectedIndex());
+        composer.add();
     }
 
     private void onRemove() {
@@ -125,11 +130,11 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
     }
 
     private void onMoveUp() {
-        composer.moveUp(chainJList.getSelectedIndex());
+        composer.moveUp();
     }
 
     private void onMoveDown() {
-        composer.moveDown(chainJList.getSelectedIndex());
+        composer.moveDown();
     }
 
     private void onSelectionChanged() {
@@ -140,10 +145,11 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         composer.selectChainFilter(chainJList.getSelectedIndex());
     }
 
-    /* 
+    /*
      * Setters
      *
-     * Every method that receives data on the view is as close to a pure “set” method as possible.
+     * Every method that receives data on the view is as close to a pure “set”
+     * method as possible.
      * 
      */
     @Override
@@ -181,5 +187,21 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
     @Override
     public void setAddButtonEnabled(boolean b) {
         addButton.setEnabled(b);
+    }
+
+    @Override
+    public void setSelectedIndex(int selectedIndex) {
+        if (selectedIndex == -1) {
+            selectionJList.clearSelection();
+        }
+        selectionJList.setSelectedIndex(selectedIndex);
+    }
+
+    @Override
+    public void setChainSelectedIndex(int chainSelectedIndex) {
+        if (chainSelectedIndex == -1) {
+            chainJList.clearSelection();
+        }
+        chainJList.setSelectedIndex(chainSelectedIndex);
     }
 }
