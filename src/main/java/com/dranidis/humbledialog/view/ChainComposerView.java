@@ -9,4 +9,12 @@ public interface ChainComposerView {
 
     void setChainList(List<Filter> chain);
 
+    void setRemoveButtonEnabled(boolean b);
+
+    void setMoveUpButtonEnabled(boolean b);
+
+    void setMoveDownButtonEnabled(boolean b);
+
+    void setAddButtonEnabled(boolean b);
+
 }

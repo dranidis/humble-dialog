@@ -87,6 +87,14 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         removeAllButton.addActionListener(e -> onRemoveAll());
         moveUpButton.addActionListener(e -> onMoveUp());
         moveDownButton.addActionListener(e -> onMoveDown());
+        selectionJList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting())
+                onSelectionChanged();
+        });
+        chainJList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting())
+                onChainSelectionChanged();
+        });
 
         getContentPane().add(panel);
         pack();
@@ -124,6 +132,14 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         composer.moveDown(chainJList.getSelectedIndex());
     }
 
+    private void onSelectionChanged() {
+        composer.selectFilter(selectionJList.getSelectedIndex());
+    }
+
+    private void onChainSelectionChanged() {
+        composer.selectChainFilter(chainJList.getSelectedIndex());
+    }
+
     /* 
      * Setters
      *
@@ -145,5 +161,25 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         for (Filter filter : filters) {
             listModel.addElement(filter.name());
         }
+    }
+
+    @Override
+    public void setRemoveButtonEnabled(boolean b) {
+        removeButton.setEnabled(b);
+    }
+
+    @Override
+    public void setMoveUpButtonEnabled(boolean b) {
+        moveUpButton.setEnabled(b);
+    }
+
+    @Override
+    public void setMoveDownButtonEnabled(boolean b) {
+        moveDownButton.setEnabled(b);
+    }
+
+    @Override
+    public void setAddButtonEnabled(boolean b) {
+        addButton.setEnabled(b);
     }
 }

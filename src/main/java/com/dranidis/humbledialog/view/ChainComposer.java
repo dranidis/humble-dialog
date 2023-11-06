@@ -20,6 +20,11 @@ public class ChainComposer {
     public void initialize() {
         view.setSelectionList(selectionList);
         view.setChainList(new ArrayList<>());
+
+        // triggers the initialization of the state of buttons
+        // when nothing is selected in the two lists
+        this.selectFilter(-1);
+        this.selectChainFilter(-1);
     }
 
     public void add(int i) {
@@ -57,6 +62,16 @@ public class ChainComposer {
             this.chainList.add(selectedIndex + 1, filter);
             view.setChainList(chainList);
         }
+    }
+
+    public void selectFilter(int selectedIndex) {
+        view.setAddButtonEnabled(selectedIndex >= 0);
+    }
+
+    public void selectChainFilter(int selectedIndex) {
+        view.setRemoveButtonEnabled(selectedIndex >= 0);
+        view.setMoveUpButtonEnabled(selectedIndex >= 1);
+        view.setMoveDownButtonEnabled(selectedIndex >= 0 && selectedIndex < chainList.size() - 1);
     }
 
 }
