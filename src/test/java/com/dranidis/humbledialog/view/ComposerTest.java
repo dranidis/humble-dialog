@@ -97,7 +97,7 @@ public class ComposerTest {
     }
 
     @Test
-    public void move_up_filter_in_chain() {
+    public void move_up_filter_in_chain_also_keeps_the_filter_selected() {
         // given
         List<Filter> filters = new ArrayList<>();
         filters.add(new ReverbFilter());
@@ -111,15 +111,17 @@ public class ComposerTest {
         composer.add();// 0
         composer.selectFilter(1);
         composer.add();// 1
-        composer.moveUp(1);
+        composer.selectChainFilter(1);
+        composer.moveUp();
 
         // then
         assertEquals("Echo", view.composedFilter().get(0).name());
         assertEquals("Reverb", view.composedFilter().get(1).name());
+        assertEquals(0, view.chainSelectedIndex());
     }
 
     @Test
-    public void move_down_filter_in_chain() {
+    public void move_down_filter_in_chain_also_keeps_the_filter_selected() {
         // given
         List<Filter> filters = new ArrayList<>();
         filters.add(new ReverbFilter());
@@ -133,11 +135,14 @@ public class ComposerTest {
         composer.add();// 0
         composer.selectFilter(1);
         composer.add();// 1
-        composer.moveDown(0);
+        composer.selectChainFilter(0);
+        composer.moveDown();
 
         // then
         assertEquals("Echo", view.composedFilter().get(0).name());
         assertEquals("Reverb", view.composedFilter().get(1).name());
+        assertEquals(1, view.chainSelectedIndex());
+
     }
 
     @Test

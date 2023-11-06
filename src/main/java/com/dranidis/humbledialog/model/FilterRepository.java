@@ -9,6 +9,7 @@ public class FilterRepository {
         List<Filter> filters = new ArrayList<>();
         filters.add(new ReverbFilter());
         filters.add(new EchoFilter());
+        filters.add(new DistortionFilter());
         return filters;
     }
 

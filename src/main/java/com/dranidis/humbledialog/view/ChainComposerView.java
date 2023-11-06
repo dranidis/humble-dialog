@@ -19,4 +19,6 @@ public interface ChainComposerView {
 
     void setSelectedIndex(int selectedIndex);
 
+    void setChainSelectedIndex(int chainSelectedIndex);
+
 }

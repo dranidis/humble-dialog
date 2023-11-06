@@ -27,6 +27,7 @@ public class MockChainComposerView implements ChainComposerView {
     private boolean moveDownEnabled = true;
     // the default state of a JList is -1
     private int selectionListSelectedIndex = -1;
+    private int chainSelectedIndex = -1;
 
     public MockChainComposerView() {
         this.selectionList = new ArrayList<>();
@@ -40,10 +41,6 @@ public class MockChainComposerView implements ChainComposerView {
     @Override
     public void setSelectionList(List<Filter> filters) {
         this.selectionList = filters;
-    }
-
-    public List<Filter> composedFilter() {
-        return chainList;
     }
 
     @Override
@@ -76,6 +73,16 @@ public class MockChainComposerView implements ChainComposerView {
         this.selectionListSelectedIndex = selectedIndex;
     }
 
+    @Override
+    public void setChainSelectedIndex(int chainSelectedIndex) {
+        this.chainSelectedIndex = chainSelectedIndex;
+    }
+
+    // Getters for the assertions
+    public List<Filter> composedFilter() {
+        return chainList;
+    }
+
     public boolean isAddButtonEnabled() {
         return addEnabled;
     }
@@ -94,6 +101,10 @@ public class MockChainComposerView implements ChainComposerView {
 
     public int selectionListSelectedIndex() {
         return selectionListSelectedIndex;
+    }
+
+    public int chainSelectedIndex() {
+        return chainSelectedIndex;
     }
 
 }

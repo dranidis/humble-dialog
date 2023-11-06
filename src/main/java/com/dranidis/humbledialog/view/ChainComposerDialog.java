@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import com.dranidis.humbledialog.model.Filter;
 import com.dranidis.humbledialog.model.FilterRepository;
@@ -82,6 +83,9 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         c.weighty = 1.0;
         panel.add(new JScrollPane(chainJList), c);
 
+        selectionJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        chainJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         // Event listeners
         addButton.addActionListener(e -> onAdd());
         removeButton.addActionListener(e -> onRemove());
@@ -89,7 +93,6 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         moveUpButton.addActionListener(e -> onMoveUp());
         moveDownButton.addActionListener(e -> onMoveDown());
         selectionJList.addListSelectionListener(e -> {
-            System.out.println("Changed");
             if (!e.getValueIsAdjusting())
                 onSelectionChanged();
         });
@@ -127,11 +130,11 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
     }
 
     private void onMoveUp() {
-        composer.moveUp(chainJList.getSelectedIndex());
+        composer.moveUp();
     }
 
     private void onMoveDown() {
-        composer.moveDown(chainJList.getSelectedIndex());
+        composer.moveDown();
     }
 
     private void onSelectionChanged() {
@@ -192,5 +195,13 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
             selectionJList.clearSelection();
         }
         selectionJList.setSelectedIndex(selectedIndex);
+    }
+
+    @Override
+    public void setChainSelectedIndex(int chainSelectedIndex) {
+        if (chainSelectedIndex == -1) {
+            chainJList.clearSelection();
+        }
+        chainJList.setSelectedIndex(chainSelectedIndex);
     }
 }
