@@ -36,6 +36,8 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
     private JButton addButton = new JButton("Add");
     private JButton removeButton = new JButton("Remove");
     private JButton removeAllButton = new JButton("Remove All");
+    private JButton moveUpButton = new JButton("Move Up");
+    private JButton moveDownButton = new JButton("Move Down");
 
     public ChainComposerDialog(JFrame frame, FilterRepository filterRepository) {
         super(frame, "Chain Composer", true);
@@ -49,6 +51,11 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
         buttonPanel.add(removeAllButton);
+
+        JPanel moveButtonPanel = new JPanel();
+        moveButtonPanel.setLayout(new GridLayout(2, 1));
+        moveButtonPanel.add(moveUpButton);
+        moveButtonPanel.add(moveDownButton);
 
         // Add components to the main panel
         JPanel panel = new JPanel();
@@ -66,17 +73,20 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         c.weightx = 0.0;
         c.weighty = 0.0;
         panel.add(buttonPanel, c);
+        c.gridy = 1;
+        panel.add(moveButtonPanel, c);
         c.gridx = 2;
         c.gridy = 0;
         c.gridheight = 5;
         c.weightx = 1.0;
         c.weighty = 1.0;
         panel.add(new JScrollPane(chainJList), c);
-        // panel.add(moveButtonPanel, BorderLayout.SOUTH);
 
         addButton.addActionListener(e -> onAdd());
         removeButton.addActionListener(e -> onRemove());
         removeAllButton.addActionListener(e -> onRemoveAll());
+        moveUpButton.addActionListener(e -> onMoveUp());
+        moveDownButton.addActionListener(e -> onMoveDown());
 
         getContentPane().add(panel);
         pack();
@@ -93,9 +103,6 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
      * Each action method is very small, just a simple delegation. 
      * 
      */
-    private void onRemoveAll() {
-        composer.removeAll();
-    }
 
     private void onAdd() {
         composer.add(selectionJList.getSelectedIndex());
@@ -103,6 +110,18 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
 
     private void onRemove() {
         composer.remove(chainJList.getSelectedIndex());
+    }
+
+    private void onRemoveAll() {
+        composer.removeAll();
+    }
+
+    private void onMoveUp() {
+        composer.moveUp(chainJList.getSelectedIndex());
+    }
+
+    private void onMoveDown() {
+        composer.moveDown(chainJList.getSelectedIndex());
     }
 
     /* 

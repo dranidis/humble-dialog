@@ -41,4 +41,22 @@ public class ChainComposer {
         view.setChainList(chainList);
     }
 
+    public void moveUp(int i) {
+        if (i > 0 && i < this.chainList.size()) {
+            Filter filter = this.chainList.get(i);
+            this.chainList.remove(i);
+            this.chainList.add(i - 1, filter);
+            view.setChainList(chainList);
+        }
+    }
+
+    public void moveDown(int selectedIndex) {
+        if (selectedIndex >= 0 && selectedIndex < this.chainList.size() - 1) {
+            Filter filter = this.chainList.get(selectedIndex);
+            this.chainList.remove(selectedIndex);
+            this.chainList.add(selectedIndex + 1, filter);
+            view.setChainList(chainList);
+        }
+    }
+
 }
