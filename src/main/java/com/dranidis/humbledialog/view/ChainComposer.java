@@ -23,8 +23,17 @@ public class ChainComposer {
     }
 
     public void add(int i) {
-        this.chainList.add(selectionList.get(i));
-        view.setChainList(chainList);
+        if (i >= 0 && i < selectionList.size()) {
+            this.chainList.add(selectionList.get(i));
+            view.setChainList(chainList);
+        }
+    }
+
+    public void remove(int i) {
+        if (i >= 0 && i < this.chainList.size()) {
+            this.chainList.remove(i);
+            view.setChainList(chainList);
+        }
     }
 
 }

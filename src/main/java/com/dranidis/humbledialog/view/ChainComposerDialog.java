@@ -34,6 +34,7 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
     private JList<String> chainJList = new JList<>(chainListModel);
 
     private JButton addButton = new JButton("Add");
+    private JButton removeButton = new JButton("Remove");
 
     public ChainComposerDialog(JFrame frame, FilterRepository filterRepository) {
         super(frame, "Chain Composer", true);
@@ -45,7 +46,7 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(3, 1));
         buttonPanel.add(addButton);
-        // buttonPanel.add(removeButton);
+        buttonPanel.add(removeButton);
         // buttonPanel.add(removeAllButton);
 
         // Add components to the main panel
@@ -73,6 +74,7 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         // panel.add(moveButtonPanel, BorderLayout.SOUTH);
 
         addButton.addActionListener(e -> onAdd());
+        removeButton.addActionListener(e -> onRemove());
 
         getContentPane().add(panel);
         pack();
@@ -85,6 +87,10 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
 
     private void onAdd() {
         composer.add(selectionJList.getSelectedIndex());
+    }
+
+    private void onRemove() {
+        composer.remove(chainJList.getSelectedIndex());
     }
 
     @Override
