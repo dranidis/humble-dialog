@@ -10,6 +10,7 @@ public class ChainComposer {
     private List<Filter> selectionList;
     private List<Filter> chainList;
     private ChainComposerView view;
+    private int selectedIndex;
 
     public ChainComposer(ChainComposerView view, List<Filter> filters) {
         this.view = view;
@@ -23,11 +24,13 @@ public class ChainComposer {
 
         // triggers the initialization of the state of buttons
         // when nothing is selected in the two lists
-        this.selectFilter(-1);
+        this.selectedIndex = -1;
+        this.selectFilter(selectedIndex);
         this.selectChainFilter(-1);
     }
 
-    public void add(int i) {
+    public void add() {
+        int i = selectedIndex;
         if (i >= 0 && i < selectionList.size()) {
             this.chainList.add(selectionList.get(i));
             view.setChainList(chainList);
@@ -65,6 +68,7 @@ public class ChainComposer {
     }
 
     public void selectFilter(int selectedIndex) {
+        this.selectedIndex = selectedIndex;
         view.setAddButtonEnabled(selectedIndex >= 0);
     }
 

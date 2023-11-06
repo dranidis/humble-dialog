@@ -113,7 +113,7 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
      */
 
     private void onAdd() {
-        composer.add(selectionJList.getSelectedIndex());
+        composer.add();
     }
 
     private void onRemove() {

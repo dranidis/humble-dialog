@@ -25,6 +25,8 @@ public class MockChainComposerView implements ChainComposerView {
     private boolean removeEnabled = true;
     private boolean moveUpEnabled = true;
     private boolean moveDownEnabled = true;
+    // the default state of a JList is -1
+    private int selectionListSelectedIndex = -1;
 
     public MockChainComposerView() {
         this.selectionList = new ArrayList<>();
@@ -69,19 +71,23 @@ public class MockChainComposerView implements ChainComposerView {
         this.addEnabled = b;
     }
 
-    public boolean addButtonEnabled() {
+    public boolean isAddButtonEnabled() {
         return addEnabled;
     }
 
-    public boolean removeButtonEnabled() {
+    public boolean isRemoveButtonEnabled() {
         return removeEnabled;
     }
 
-    public boolean moveUpButtonEnabled() {
+    public boolean isMoveUpButtonEnabled() {
         return moveUpEnabled;
     }
 
-    public boolean moveDownButtonEnabled() {
+    public boolean isMoveDownButtonEnabled() {
         return moveDownEnabled;
+    }
+
+    public int selectionListSelectedIndex() {
+        return selectionListSelectedIndex;
     }
 }
