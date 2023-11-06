@@ -82,12 +82,14 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         c.weighty = 1.0;
         panel.add(new JScrollPane(chainJList), c);
 
+        // Event listeners
         addButton.addActionListener(e -> onAdd());
         removeButton.addActionListener(e -> onRemove());
         removeAllButton.addActionListener(e -> onRemoveAll());
         moveUpButton.addActionListener(e -> onMoveUp());
         moveDownButton.addActionListener(e -> onMoveDown());
         selectionJList.addListSelectionListener(e -> {
+            System.out.println("Changed");
             if (!e.getValueIsAdjusting())
                 onSelectionChanged();
         });
@@ -108,7 +110,7 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
     /*
      * Action methods
      * 
-     * Each action method is very small, just a simple delegation. 
+     * Each action method is very small, just a simple delegation.
      * 
      */
 
@@ -140,10 +142,11 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         composer.selectChainFilter(chainJList.getSelectedIndex());
     }
 
-    /* 
+    /*
      * Setters
      *
-     * Every method that receives data on the view is as close to a pure “set” method as possible.
+     * Every method that receives data on the view is as close to a pure “set”
+     * method as possible.
      * 
      */
     @Override
@@ -181,5 +184,13 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
     @Override
     public void setAddButtonEnabled(boolean b) {
         addButton.setEnabled(b);
+    }
+
+    @Override
+    public void setSelectedIndex(int selectedIndex) {
+        if (selectedIndex == -1) {
+            selectionJList.clearSelection();
+        }
+        selectionJList.setSelectedIndex(selectedIndex);
     }
 }

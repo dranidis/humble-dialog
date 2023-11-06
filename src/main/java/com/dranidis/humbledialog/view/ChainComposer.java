@@ -35,6 +35,8 @@ public class ChainComposer {
             this.chainList.add(selectionList.get(i));
             view.setChainList(chainList);
         }
+        selectedIndex = -1;
+        view.setSelectedIndex(selectedIndex);
     }
 
     public void remove(int i) {
@@ -69,6 +71,7 @@ public class ChainComposer {
 
     public void selectFilter(int selectedIndex) {
         this.selectedIndex = selectedIndex;
+        view.setSelectedIndex(selectedIndex);
         view.setAddButtonEnabled(selectedIndex >= 0);
     }
 

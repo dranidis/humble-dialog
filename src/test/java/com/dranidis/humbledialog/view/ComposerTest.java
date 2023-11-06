@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.dranidis.humbledialog.ReverbFilter;
 import com.dranidis.humbledialog.model.EchoFilter;
 import com.dranidis.humbledialog.model.Filter;
+import com.dranidis.humbledialog.model.ReverbFilter;
 
 /**
  * All the tests should only interact with the composer. There should be no
@@ -108,9 +108,9 @@ public class ComposerTest {
         // when
         composer.initialize();
         composer.selectFilter(0);
-        composer.add();//0
+        composer.add();// 0
         composer.selectFilter(1);
-        composer.add();//1
+        composer.add();// 1
         composer.moveUp(1);
 
         // then
@@ -130,9 +130,9 @@ public class ComposerTest {
         // when
         composer.initialize();
         composer.selectFilter(0);
-        composer.add();//0
+        composer.add();// 0
         composer.selectFilter(1);
-        composer.add();//1
+        composer.add();// 1
         composer.moveDown(0);
 
         // then
@@ -226,9 +226,9 @@ public class ComposerTest {
 
         composer.initialize();
         composer.selectFilter(0);
-        composer.add();//0
+        composer.add();// 0
         composer.selectFilter(1);
-        composer.add();//1
+        composer.add();// 1
         assertEquals(false, view.isMoveDownButtonEnabled());
         // when
 
@@ -249,9 +249,9 @@ public class ComposerTest {
 
         composer.initialize();
         composer.selectFilter(0);
-        composer.add();//0
+        composer.add();// 0
         composer.selectFilter(1);
-        composer.add();//1
+        composer.add();// 1
         assertEquals(false, view.isMoveDownButtonEnabled());
         // when
 

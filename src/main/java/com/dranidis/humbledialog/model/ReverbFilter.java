@@ -1,6 +1,4 @@
-package com.dranidis.humbledialog;
-
-import com.dranidis.humbledialog.model.Filter;
+package com.dranidis.humbledialog.model;
 
 public class ReverbFilter implements Filter {
 

@@ -17,4 +17,6 @@ public interface ChainComposerView {
 
     void setAddButtonEnabled(boolean b);
 
+    void setSelectedIndex(int selectedIndex);
+
 }

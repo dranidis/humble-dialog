@@ -71,6 +71,11 @@ public class MockChainComposerView implements ChainComposerView {
         this.addEnabled = b;
     }
 
+    @Override
+    public void setSelectedIndex(int selectedIndex) {
+        this.selectionListSelectedIndex = selectedIndex;
+    }
+
     public boolean isAddButtonEnabled() {
         return addEnabled;
     }
@@ -90,4 +95,5 @@ public class MockChainComposerView implements ChainComposerView {
     public int selectionListSelectedIndex() {
         return selectionListSelectedIndex;
     }
+
 }
