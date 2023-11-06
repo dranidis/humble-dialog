@@ -35,6 +35,7 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
 
     private JButton addButton = new JButton("Add");
     private JButton removeButton = new JButton("Remove");
+    private JButton removeAllButton = new JButton("Remove All");
 
     public ChainComposerDialog(JFrame frame, FilterRepository filterRepository) {
         super(frame, "Chain Composer", true);
@@ -47,7 +48,7 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         buttonPanel.setLayout(new GridLayout(3, 1));
         buttonPanel.add(addButton);
         buttonPanel.add(removeButton);
-        // buttonPanel.add(removeAllButton);
+        buttonPanel.add(removeAllButton);
 
         // Add components to the main panel
         JPanel panel = new JPanel();
@@ -75,6 +76,7 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
 
         addButton.addActionListener(e -> onAdd());
         removeButton.addActionListener(e -> onRemove());
+        removeAllButton.addActionListener(e -> onRemoveAll());
 
         getContentPane().add(panel);
         pack();
@@ -85,6 +87,16 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         setVisible(true);
     }
 
+    /*
+     * Action methods
+     * 
+     * Each action method is very small, just a simple delegation. 
+     * 
+     */
+    private void onRemoveAll() {
+        composer.removeAll();
+    }
+
     private void onAdd() {
         composer.add(selectionJList.getSelectedIndex());
     }
@@ -93,6 +105,12 @@ public class ChainComposerDialog extends JDialog implements ChainComposerView {
         composer.remove(chainJList.getSelectedIndex());
     }
 
+    /* 
+     * Setters
+     *
+     * Every method that receives data on the view is as close to a pure “set” method as possible.
+     * 
+     */
     @Override
     public void setSelectionList(List<Filter> filters) {
         setList(selectionListModel, filters);

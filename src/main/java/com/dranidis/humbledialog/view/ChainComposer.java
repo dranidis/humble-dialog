@@ -36,4 +36,9 @@ public class ChainComposer {
         }
     }
 
+    public void removeAll() {
+        this.chainList.clear();
+        view.setChainList(chainList);
+    }
+
 }

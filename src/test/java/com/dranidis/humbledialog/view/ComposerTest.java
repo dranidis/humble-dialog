@@ -63,4 +63,22 @@ public class ComposerTest {
         // then
         assertEquals(0, view.composedFilter().size());
     }
+
+    @Test
+    public void remove_all_filters_from_chain() {
+        // given
+        List<Filter> filters = new ArrayList<>();
+        filters.add(new ReverbFilter());
+        MockChainComposerView view = new MockChainComposerView();
+        ChainComposer composer = new ChainComposer(view, filters);
+
+        // when
+        composer.initialize();
+        composer.add(0);
+        composer.add(0);
+        composer.removeAll();
+
+        // then
+        assertEquals(0, view.composedFilter().size());
+    }
 }
